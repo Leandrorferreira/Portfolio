@@ -1,0 +1,63 @@
+﻿@model List<Model.Entity.Usuario>
+@{
+    ViewBag.Title = "Buscar Por Empresa";
+}
+<div class="panel panel-default" summary="Formulário com campos para pesquisar um usuário">
+    <div class="panel-heading">Buscar Usuarios no Sistema</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+            {
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-family:Arial; font-weight:700;">Buscar Usuário por:</h2>
+                <fieldset>
+                    <div class="form-group">
+                        @Html.Label("Empresas", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6 dropdown">
+                           
+                            @Html.DropDownList("ListaEmpresas", ViewBag.ListaEmpresas as SelectList, "Selecione uma Empresa", htmlAttributes: new { @class = "form-control" })
+                           
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-actions">
+                <input class="btn btn-primary" type="submit" value="Buscar" />
+            </div>
+        }
+    </div>
+</div>
+
+<div class="text-primary text-danger text-center">
+    @ViewBag.MensagemErro;
+</div>
+
+<table class="table table-hover table-striped" summary="Tabela com dados dos usuários">
+    <thead>
+        <tr class="bg-primary">
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Ramal</th>
+            <th>Empresa</th>
+            <th colspan="3">Operacões</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var objUsuario in Model)
+        {
+        <tr>
+            <td>@objUsuario.Matricula</td>
+            <td>@objUsuario.Nome</td>
+            <td>@objUsuario.Cpf</td>
+            <td>@objUsuario.Ramal</td>
+            <td>@objUsuario.CodEmpresa</td>
+            <td><a class="btn btn-success" href="~/Usuario/Find/@objUsuario.Matricula">Detalhes</a></td>
+            <td><a class="btn btn-info" href="~/Usuario/Update/@objUsuario.Matricula">Editar</a></td>
+            <td><a class="btn btn-danger" href="~/Usuario/Delete/@objUsuario.Matricula">Excluir</a></td>
+
+        </tr>
+        }
+    </tbody>
+
+</table>
+

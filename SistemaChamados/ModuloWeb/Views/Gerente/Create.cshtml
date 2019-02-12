@@ -1,0 +1,99 @@
+﻿@model Model.Entity.Gerente
+@{
+    ViewBag.Title = "Novo Gerente";
+}
+
+<div class="well well-sm text-primary text-center">
+    @ViewBag.MensagemInicio
+</div>
+
+@*@Html.EditorForModel()*@
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal" summary="Formulário de cadastro de gerente" style="padding:10px;">
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    <small class="alert-danger">*Campo obrigatório - (máx 50 caracteres)</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control", @type = "form-control", id = "txtCPF" } })
+                    <small class="alert-danger">*Campo obrigatório</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Email:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBox("txtEmail", null, new { @class = "form-control", id = "txtEmail", value = ViewBag.Email })
+                    <small class="alert-danger">*Campo obrigatório</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Senha:", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBox("txtSenha", null, new { @class = "form-control", id = "txtSenha", @type = "password", value = ViewBag.Senha })
+                    <small class="alert-danger">*Campo obrigatório</small>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions col-md-offset-2">
+            <input class="btn btn-primary" type="submit" id="btnsalvar" name="btnsalvar" value="Salvar" /> |
+            <a class="btn btn-info" href="~/Gerente/Index">Voltar</a>
+        </div>
+    </div>
+}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-primary text-success text-center">
+                    @ViewBag.MensagemExito
+                </div>
+                <div class="text-primary text-danger text-center">
+                    @ViewBag.MensagemErro
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#txtCPF').mask('000.000.000-00', { placeholder: "___.___.___-__" });
+            $("#txtSenha").val("");
+            $("#txtEmail").val("");
+        });
+    </script>
+
+    @if (ViewBag.MensagemExito != null || ViewBag.MensagemErro != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                $("#txtSenha").val("");
+                $("#txtEmail").val("");
+                $('#exampleModal').modal('show');
+            });
+        </script>
+    }
+}
+

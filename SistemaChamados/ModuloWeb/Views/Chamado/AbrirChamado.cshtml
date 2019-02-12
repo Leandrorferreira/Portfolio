@@ -1,0 +1,121 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Js/alertify.min.js"></script>
+<link href="~/Css/alertify.core.css" rel="stylesheet" />
+<link href="~/Css/alertify.default.css" rel="stylesheet" />
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //Finalizar cadastro de novo chamado
+        $("#finalizar").click(function () {
+
+            //Chama a função validaCampos e se não tiver nenhum campo vazio, retorna 'false' executando a intrução abaixo:
+            if (!validaCampos()) {
+                var envio = "{Descricao:'" + $("#txtdescricao").val() + "',IdUsuario:'" + $("#matricula").val() + "'}";
+
+                var json = eval("(" + envio + ')');
+
+                console.info(json);
+
+                $.ajax({
+                    url: "SalvarChamado",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    async: false,//this makes the ajax-call blocking
+                    contentType: 'application/json;charset=UTF-8',
+                    dataType: 'json',
+                    success: function (response) {
+                        alertify.alert("Chamado Aberto com Sucesso!");
+                        valid = response.valid;
+                    },
+                    error: function (error) {
+                        alertify.alert("Erro ao tentar abrir chamado! " + error);
+                    }
+                });
+            }
+        });
+    });
+
+    //Verifica se os campos matricula e descrição estão preenchidos
+    function validaCampos() {
+        var matricula = document.getElementById('matricula').value;
+        var descricao = document.getElementById('txtdescricao').value;
+
+        if ((matricula == "" || matricula == null) || (descricao == "" || descricao == null)) {
+            alertify.alert("Informe o CPF e a descrição do chamado!");
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+<section class="container">
+    <div class="row">
+        <div class="col-sm-12" summary="Tabela com dados do usuário para abrir novo chamado">
+            <header>
+                <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Dados do Cliente</h2>                
+            </header>
+        </div>
+    </div>    
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 col-md-2 control-label">CPF:</label>
+            <div class="col-sm-4 col-md-3">
+                <input type="text" id="cpf" class="form-control"/>               
+            </div>           
+            <div class="col-sm-3 col-md-3">
+                <button class="btn btn-warning" name="btnusuario" id="btnusuario">Selecionar</button>                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12 col-sm-3 col-md-2 col-lg-2">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" readonly required>
+        </div>
+        <div class="form-group col-xs-12 col-sm-3 col-md-2 col-lg-2">
+            <label for="matricula">Matrícula</label>
+            <input type="text" class="form-control" id="matricula" readonly required>
+        </div>
+        <div class="form-group col-xs-12 col-sm-3 col-md-2 col-sm-offset-3 col-md-offset-0">
+            <label for="ramal">Ramal</label>
+            <input type="email" class="form-control" id="ramal" readonly required>
+        </div>
+        <div class="form-group col-xs-12 col-sm-3 col-md-2 col-sm-offset-3 col-md-offset-0">
+            <label for="empresa">Empresa</label>
+            <input type="email" class="form-control" id="empresa" readonly required>
+        </div>        
+    </div>    
+    <div class="row">
+        <div class="col-sm-12 col-sm-offset-6 col-md-8 col-md-offset-0 col-xs-12">            
+            <div class="form-group">
+                <textarea rows="4" cols="80" class="form-control" placeholder="Descreva o problema..." id="txtdescricao"></textarea>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-success btn-lg" type="button" id="finalizar" value="Salvar" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#btnusuario").click(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "Selecionar",
+                data: { cpf: $("#cpf").val() },
+                success: function (mensagem) {
+                    $(mensagem).each(function (index, item) {
+                        //receber dados json
+                        $("#empresa").val(item.Empresa),
+                            $("#nome").val(item.NomeUsuario),
+                            $("#matricula").val(item.Matricula),
+                            $("#ramal").val(item.Ramal_Usuario)
+                    });
+                }
+            });
+        });
+    });
+</script>

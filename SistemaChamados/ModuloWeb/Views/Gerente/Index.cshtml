@@ -1,0 +1,34 @@
+﻿@model List<Model.Entity.Gerente>
+@{
+    ViewBag.Title = "Gerentes Cadastrados";
+}
+
+<h2 class="text-center text-info">Gerentes Cadastrados</h2>
+<div class="well well-sm">
+    <a class="btn btn-primary" href="~/Gerente/Create">Novo</a>
+    <a class="btn btn-info" href="~/Gerente/BuscarGerentes">Buscar</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped" summary="Tabela com lista dos gerentes cadastrados no sistema" style="padding:10px;">
+        <thead>
+            <tr class="bg-primary">
+                <th>Nome</th>
+                <th>CPF</th>
+                <th colspan="3">Operações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var objGerente in Model)
+            {
+                <tr>
+                    <td>@objGerente.Nome</td>
+                    <td>@objGerente.Cpf</td>
+                    <td><a class="btn btn-success" href="~/Gerente/Find/@objGerente.Matricula">Detalhes</a></td>
+                    <td><a class="btn btn-info" href="~/Gerente/Update/@objGerente.Matricula">Editar</a></td>
+                    <td><a class="btn btn-danger" href="~/Gerente/Eliminar/@objGerente.Matricula">Excluir</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

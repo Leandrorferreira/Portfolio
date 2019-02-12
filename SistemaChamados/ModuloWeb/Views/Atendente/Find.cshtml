@@ -1,0 +1,32 @@
+﻿@model Model.Entity.Atendente
+@{
+    ViewBag.Title = Model.Nome;
+}
+
+<ol class="breadcrumb">
+    <li><a href="~/Atendente/Index">Atendentes</a></li>
+    <li class="active">@(Model.Nome)</li>
+
+</ol>
+
+<div class="panel panel-default" summary="Tabela de Detalhes do atendente" style="padding:10px;">
+    <div class="panel-heading">Informações do Atendente</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Matrícula</dt>
+            <dd>@Model.Matricula</dd>
+            <dt>Nome</dt>
+            <dd>@Model.Nome</dd>
+            <dt>CPF</dt>
+            <dd>@Model.Cpf</dd>
+            <dt>Função</dt>
+            <dd>@Model.Funcao</dd>
+        </dl>
+        <dl class="form-group col-md-offset-1">
+            <dt>
+                <a class="btn btn-info" href="~/Atendente/Index">Voltar</a>
+            </dt>
+        </dl>
+    </div>
+</div>
+

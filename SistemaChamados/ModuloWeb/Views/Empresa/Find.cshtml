@@ -1,0 +1,42 @@
+﻿@model Model.Entity.Empresa
+@{
+    ViewBag.Title = Model.NomeFantasia;
+}
+
+<ol class="breadcrumb">
+    <li><a href="~/Empresa/Index">Empresas</a></li>
+    <li class="active">@(Model.NomeFantasia)</li>
+
+</ol>
+
+<div class="panel panel-default" style="padding:10px;">
+    <div class="panel-heading">Informações da Empresa</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal" summary="Tabela com detalhes da empresa">
+            <dt>Código</dt>
+            <dd>@Model.CodEmpresa</dd>
+            <dt>CNPJ</dt>
+            <dd>@Model.Cnpj</dd>
+            <dt>Razão Social</dt>
+            <dd>@Model.RazaoSocial</dd>
+            <dt>Nome</dt>
+            <dd>@Model.NomeFantasia</dd>
+            <dt>Telefone</dt>
+            <dd>@Model.Telefone</dd>
+            <dt>Logradouro</dt>
+            <dd>@Model.Logradouro</dd>
+            <dt>Complemento</dt>
+            <dd>@Model.Complemento</dd>
+            <dt>Cidade</dt>
+            <dd>@Model.Cidade</dd>
+            <dt><abbr title="Unidade Federativa">UF</abbr></dt>
+            <dd>@Model.Uf</dd>
+        </dl>
+        <dl class="form-group col-md-offset-1">
+            <dt>
+                <a class="btn btn-info" href="~/Empresa/Index">Voltar</a>
+            </dt>            
+        </dl>
+    </div>   
+</div>
+

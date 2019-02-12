@@ -1,0 +1,223 @@
+﻿@using Model.Entity
+@{
+    ViewBag.Title = "INFOTECH";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Gerenciamento de Chamados</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="~/Assets/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Css/sb-admin-2.css" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    <link href="~/Assets/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="~/Assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>           
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="glyphicon glyphicon-cloud"></i>
+                        <b class="text-center">
+                            INFOTECH
+                        </b>
+                    </a>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                @if (Autenticacao.Instancia.Cargo == null || Autenticacao.Instancia.Cargo == "Gerente")
+                {
+                    <li>
+                        <a href="~/Home/Index">
+                            <i class="fa fa-home fa-fw"></i> INICIO
+                        </a>                       
+                    </li>
+                }
+                
+                <li class="dropdown">
+                    <a href="~/Home/About">
+                        <i class="glyphicon glyphicon-info-sign"></i> QUEM SOMOS
+                    </a>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                @if (Autenticacao.Instancia.Cargo == "Analista" || Autenticacao.Instancia.Cargo == "Adm")
+                {
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="glyphicon glyphicon-earphone"></i> CHAMADOS <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts" style="left:110px;">
+                            <li>
+                                <a href="~/Chamado/AbrirChamado" accesskey="1">
+                                    <div>
+                                        <i class="fa fa-users fa-fw"></i>Novo Chamado
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="~/Chamado/ConsultarChamado" accesskey="2">
+                                    <div>
+                                        <i class="fa fa-users fa-fw"></i> Finalizar Chamado
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-alerts -->
+                    </li>
+                }
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    @if (Autenticacao.Instancia.Matricula == 0)
+                    {
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="~/Login/Index"><i class="fa fa-sign-out fa-fw"></i> Entrar</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#"><i class="fa fa-user fa-fw"></i>Bem Vindo @Autenticacao.Instancia.Cargo!</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="~/Login/MudarSenha"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="~/Login/Logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                            </li>
+                        </ul>
+                    }
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            @if ((Autenticacao.Instancia.Cargo == "Analista" || Autenticacao.Instancia.Cargo == "Gerente") || Autenticacao.Instancia.Cargo == "Adm")
+            {
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li>
+                                <a href="~/Home/Index" accesskey="0"><i class="fa fa-home fa-fw"></i> Principal</a>
+                            </li>
+                            @if (Autenticacao.Instancia.Cargo == "Analista" || Autenticacao.Instancia.Cargo == "Adm")
+                            {
+                                <li>
+                                    <a href="~/Chamado/AbrirChamado" accesskey="1"><i class="glyphicon glyphicon-plus"></i> Abrir Chamado</a>
+                                </li>
+                                <li>
+                                    <a href="~/Chamado/ConsultarChamado" accesskey="2"><i class="glyphicon glyphicon-check"></i> Finalizar Chamado</a>
+                                </li>
+
+                            }
+                            <li>
+                                <a href="#"><i class="glyphicon glyphicon-earphone"></i> Chamados<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="~/Chamado/ConsultarChamadoAberto" accesskey="3"><i class="fa fa-search fa-fw" style="color:#f0ad4e"></i>Abertos</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/Chamado/ConsultarChamadoFechado" accesskey="4"><i class="fa fa-check fa-fw" style="color:#f0ad4e"></i>Finalizados</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Administração<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @if (Autenticacao.Instancia.Cargo == "Gerente" || Autenticacao.Instancia.Cargo == "Adm")
+                                    {
+                                        <li>
+                                            <a href="~/Atendente/Index" accesskey="5"><i class="glyphicon glyphicon-user" style="color:#f0ad4e"></i> Atendentes</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="~/Empresa/Index" accesskey="6"><i class="glyphicon glyphicon-user" style="color:#f0ad4e"></i> Empresas</a>
+                                    </li>
+                                    @if (Autenticacao.Instancia.Cargo == "Adm")
+                                    {
+                                        <li>
+                                            <a href="~/Gerente/Index" accesskey="7"><i class="glyphicon glyphicon-user" style="color:#f0ad4e"></i> Gerentes</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="~/Usuario/Index" accesskey="8"><i class="glyphicon glyphicon-user" style="color:#f0ad4e"></i> Usuários</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+
+                </div>
+            }
+
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            <!-- /.row -->
+
+            <div class="row">
+                @RenderBody()
+            </div>
+
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="~/Assets/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Assets/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Assets/metisMenu/metisMenu.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+
+    <script src="~/Assets/morrisjs/morris.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Js/sb-admin-2.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+

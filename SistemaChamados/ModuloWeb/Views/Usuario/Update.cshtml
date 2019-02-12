@@ -1,0 +1,93 @@
+﻿@model Model.Entity.Usuario
+@{
+    ViewBag.Title = "Editar Usuario";
+}
+
+<h2 class="text-center">@ViewBag.MensagemInicialAtualizar</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal" summary="Formulário com dados do usuário a serem atualizados" style="padding:10px;">
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    <small class="alert-danger">*Campo obrigatório - (máx 20 caracteres)</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control" } })
+                    <small class="alert-danger">*Campo obrigatório</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ramal, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Ramal, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    <small class="alert-danger">*Campo obrigatório - (máx 12 caracteres)</small>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodEmpresa, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6 dropdown">
+                    @Html.DropDownListFor(model => model.CodEmpresa, ViewBag.ListaEmpresas as SelectList, "Selecione uma Empresa", htmlAttributes: new { @class = "form-control" })
+                    <small class="alert-danger">*Campo obrigatório</small>
+                </div>
+            </div>
+            <div class="form-actions col-md-offset-2">
+                <div class="form-group col-md-3">
+                    <input class="btn btn-primary" type="submit" name="btnsalvar" value="Salvar" />
+                </div>
+                <div class="form-group col-md-3">
+                    <a class="btn btn-info" href="~/Usuario/Index">Voltar</a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-primary text-success text-center">
+                    @ViewBag.MensagemExito
+                </div>
+                <div class="text-primary text-danger text-center">
+                    @ViewBag.MensagemErro
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.MensagemExito != null || ViewBag.MensagemErro != null)
+{
+    @section Scripts{
+        <script>
+            $(function () {
+                $('#exampleModal').modal('show');
+            });
+        </script>
+    }
+
+}

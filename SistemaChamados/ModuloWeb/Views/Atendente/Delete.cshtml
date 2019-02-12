@@ -1,0 +1,84 @@
+﻿@model Model.Entity.Atendente
+@{
+    ViewBag.Title = Model.Nome;
+}
+
+<ol class="breadcrumb">
+    <li><a href="~/Atendente/Index">Atendentes</a></li>
+    <li class="active">@(Model.Nome)</li>
+</ol>
+
+<div class="well well-sm text-primary text-center">
+    @ViewBag.MensagemInicialEliminar
+</div>
+<div class="panel panel-default" summary="Tabela com informações do atendente a ser excluido" style="padding:10px;">
+    <div class="panel-heading">Informações do Atendente</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Matrícula</dt>
+            <dd>@Model.Matricula</dd>
+
+            <dt>Nome</dt>
+            <dd>@Model.Nome</dd>
+
+            <dt>CPF</dt>
+            <dd>@Model.Cpf</dd>
+
+            <dt>Função</dt>
+            <dd>@Model.Funcao</dd>
+        </dl>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <div class="form-group col-md-3">
+                <input type="submit" value="Delete" class="btn btn-primary" />
+            </div>
+            |
+            <div class="form-group col-md-3">
+                <a class="btn btn-danger" href="~/Atendente/Index">Voltar</a>
+            </div>
+
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mensagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-primary text-success text-center">
+                    @ViewBag.MensagemExito
+                </div>
+                <div class="text-primary text-danger text-center">
+                    @ViewBag.MensagemErro
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.MensagemExito != null || ViewBag.MensagemErro != null)
+{
+    @section Scripts{
+        <script>
+            $(function () {
+                $('#exampleModal').modal('show');
+            });
+        </script>
+    }
+
+}

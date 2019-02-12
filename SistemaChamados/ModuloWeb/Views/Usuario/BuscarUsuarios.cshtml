@@ -1,0 +1,89 @@
+﻿@using Model.Entity
+@model List<Usuario>
+@{
+    ViewBag.Title = "Buscar Usuários";
+}
+<div class="panel panel-default" style="padding:10px;">
+    <div class="panel-heading" style="background:#2C3E50; color:#ffffff;"><h2 style="text-align:center; font-family:Arial; font-weight:700;">Buscar Usuário por:</h2></div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal">
+                <fieldset>
+                    <div class="row" style="padding-bottom:8px;">
+                        <div class="form-group col-md-4">
+                            @Html.Label("Nome", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("txtnome", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.Label("CPF", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("txtcpf", null, new { @class = "form-control", id = "txtCPF" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.Label("Empresas", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8 dropdown">
+                                @Html.DropDownList("ListaEmpresas", ViewBag.ListaEmpresas as SelectList, "Selecione", htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <div class="col-xs-4">
+                                <input class="btn btn-primary" type="submit" value="Buscar" />
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="btn btn-info" href="~/Usuario/Index">Voltar</a>
+                            </div>
+                        </div>                    
+                    </div>
+                </fieldset>
+            </div>     
+        }
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped" summary="Tabela com dados do usuário" style="padding:10px;">
+        <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Ramal</th>
+            <th>Empresa</th>
+        </tr>
+        @foreach (var objUsuario in Model)
+        {
+            <tr>
+                <th>@objUsuario.Matricula</th>
+                <th>@objUsuario.Nome</th>
+                <th>@objUsuario.Cpf</th>
+                <th>@objUsuario.Ramal</th>
+                @foreach (var item in ViewBag.ListaEmpresa)
+                {
+                    if (item.CodEmpresa == objUsuario.CodEmpresa)
+                    {
+                        <td>@item.NomeFantasia</td>
+                        break;
+                    }
+                }
+            </tr>
+        }
+        <tr></tr>
+    </table>
+</div>
+<div class="text-primary text-danger text-center">
+    @ViewBag.MensagemErro
+</div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#txtCPF').mask('000.000.000-00', { placeholder: "___.___.___-__" });
+    });
+    </script>
+}
